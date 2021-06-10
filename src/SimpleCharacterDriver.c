@@ -134,11 +134,11 @@ ssize_t charDriverFileRead (struct file *filp, char * buf, size_t byteCount, lof
       bytesRead ++; 
     }  
     startByte += bytesRead; 
-    if (startByte == messageLen)
-    {  
-      pr_info("Resetting read counter to 0"); 
-      startByte = 0; 
-    }  
+//    if (startByte == messageLen)
+//    {  
+//      pr_info("Resetting read counter to 0"); 
+//      startByte = 0; 
+//    }  
 
     myFHPrivateData->byteStartIndex = startByte; 
     return bytesRead; 
@@ -161,8 +161,7 @@ ssize_t charDriverFileWrite (struct file *filp, const char * buf, size_t byteCou
     while ((bytesWritten < byteCount) && (bytesWritten < MAX_MESSAGE_LEN))
     { 
       get_user(c,buf+bytesWritten); 
-      MyGlobalData.Contexts[myFHPrivateData->minorDevice].Message[bytesWritten] = c;  
-      bytesWritten ++; 
+      MyGlobalData.Contexts[myFHPrivateData->minorDevice].Message[bytesWritten++] = c;  
     }  
     MyGlobalData.Contexts[myFHPrivateData->minorDevice].MessageLen = bytesWritten;
     return bytesWritten; 
