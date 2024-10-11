@@ -43,11 +43,17 @@ assert(os.write(fd1,"Hello World".encode('utf-8')) == 11)
 assert("Hello" == os.read(fd1,5).decode('utf-8'))
 world = os.read(fd1,6).decode('utf-8')
 assert(" World" == world)  # If you fail this reads probably restart at 0. 
-helloworld = os.read(fd1,13).decode('utf-8')
-assert("Hello World" == helloworld) # Make sure we relooped back. 
+os.close(fd1)
 
+
+fd1 = os.open(devices[0],os.O_RDWR)
+helloworld = os.read(fd1,13).decode('utf-8')
+assert "Hello World" == helloworld,helloworld  # Make sure we relooped back. 
+os.close(fd1)
+
+fd1 = os.open(devices[0],os.O_RDWR)
 helloworld= os.read(fd1,17).decode('utf-8')
-assert("Hello World" == helloworld) # read too many characters. 
+assert("Hello World" == helloworld),helloworld # read too many characters. 
 os.close(fd1)
 
 # 
